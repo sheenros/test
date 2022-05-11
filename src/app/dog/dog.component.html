@@ -1,0 +1,62 @@
+<div class="btn-add-div">
+  <nz-input-group  nzSearch [nzAddOnAfter]="suffixIconButton">
+    <input type="text" nz-input placeholder="input search text" [(ngModel)]="searchValue" />
+  </nz-input-group>
+  <ng-template #suffixIconButton>
+    <button nz-button nzType="primary" nzSearch (click)="search()" ><i nz-icon nzType="search"></i></button>
+    <button nz-button nzType="default" class="primary" (click)="showModal()">Add New Dog</button>
+  </ng-template>
+
+
+</div>
+
+<nz-table #dogTable [nzData]="dog" nzTableLayout="fixed">
+  <thead>
+  <tr>
+    <th
+      *ngFor="let column of listOfColumns"
+      [nzSortOrder]="column.sortOrder"
+      [nzSortFn]="column.sortFn"
+      [nzSortDirections]="column.sortDirections"
+      [nzFilterMultiple]="column.filterMultiple"
+      [nzFilters]="column.listOfFilter"
+      [nzFilterFn]="column.filterFn"
+    >
+      {{ column.name }}
+    </th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let dog of dogTable.data">
+    <td >{{dog.id}}</td>
+    <td >{{dog.name}}</td>
+    <td >{{dog.age}}</td>
+    <td >{{dog.color}}</td>
+    <td >{{dog.race.race}}</td>
+    <td >{{dog.race.description}}</td>
+
+    <td>
+      <nz-space>
+        <button class="view" nz-button nzType="default" (click)="show(dog)" *nzSpaceItem>
+          <i nz-icon nzType="eye" nzTheme="outline"></i>
+        </button>
+        <button class="view" nz-button nzType="default" (click)="update(dog)" *nzSpaceItem>
+          <i nz-icon nzType="edit" nzTheme="outline"></i>
+        </button>
+        <button class="delete" nz-button nzType="default" (click)="deleteById(dog.id)" *nzSpaceItem>
+          <i nz-icon nzType="delete" nzTheme="twotone" [nzTwotoneColor]="'red'"></i>
+        </button>
+
+      </nz-space>
+    </td>
+  </tr>
+  </tbody>
+</nz-table>
+
+
+
+
+<app-dog-form [visible]="visible"
+                 (visibilityEvent)="updateVisibility($event)"
+                 (submitEvent)="submit($event)">
+</app-dog-form>
